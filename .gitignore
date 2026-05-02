@@ -1,0 +1,17 @@
+.idea
+__pycache__
+__pycache__/
+*.py[cod]
+*.log
+
+/.idea
+/data
+/static
+delete.*
+
+.env
+.venv/
+venv/
+env/
+
+ss/
