@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign Language Recognition</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Recognition Console</p>
+        <h1>Sign Language Recognition</h1>
+      </div>
+      <div id="serviceStatus" class="status status-idle">Ready</div>
+    </header>
+
+    <main class="workspace">
+      <section class="stage">
+        <div class="media-shell">
+          <video id="camera" class="media media-hidden" autoplay playsinline muted></video>
+          <img id="preview" class="media" src="{{ url_for('project_asset', filename='docs/demo-ss-a.png') }}" alt="Input preview">
+          <canvas id="captureCanvas" hidden></canvas>
+        </div>
+
+        <div class="toolbar" aria-label="Recognition controls">
+          <button id="startCamera" type="button">Camera</button>
+          <button id="captureFrame" type="button" disabled>Capture</button>
+          <label class="file-control">
+            Upload
+            <input id="imageUpload" type="file" accept="image/*">
+          </label>
+          <button id="predictImage" type="button">Predict</button>
+          <button id="clearImage" class="secondary" type="button">Clear</button>
+        </div>
+      </section>
+
+      <aside class="results">
+        <div>
+          <p class="eyebrow">Result</p>
+          <h2 id="primaryPrediction">No prediction</h2>
+        </div>
+        <div id="predictionList" class="prediction-list" aria-live="polite">
+          <p class="empty-state">Waiting for an image.</p>
+        </div>
+      </aside>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  </body>
+</html>

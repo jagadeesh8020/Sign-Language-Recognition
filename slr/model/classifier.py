@@ -1,5 +1,14 @@
 import numpy as np
-import tensorflow as tf
+
+try:
+    from ai_edge_litert.interpreter import Interpreter
+except ImportError:
+    try:
+        from tflite_runtime.interpreter import Interpreter
+    except ImportError:
+        import tensorflow as tf
+
+        Interpreter = tf.lite.Interpreter
 
 
 class KeyPointClassifier(object):
@@ -9,7 +18,7 @@ class KeyPointClassifier(object):
         num_threads=1,
     ):
         #: Initializing tensor interpreter
-        self.interpreter = tf.lite.Interpreter(
+        self.interpreter = Interpreter(
             model_path=model_path,
             num_threads=num_threads
         )
@@ -20,6 +29,10 @@ class KeyPointClassifier(object):
         self.output_details = self.interpreter.get_output_details()
 
     def __call__(self, landmark_list):
+        result_index, _ = self.predict(landmark_list)
+        return result_index
+
+    def predict(self, landmark_list, confidence_threshold=0.5):
 
         input_details_tensor_index = self.input_details[0]['index']
 
@@ -39,11 +52,13 @@ class KeyPointClassifier(object):
         #: Getting all the prediction percentage
         result = self.interpreter.get_tensor(output_details_tensor_index)
         
-        if max(np.squeeze(result)) > 0.5:
+        confidence = float(max(np.squeeze(result)))
+
+        if confidence > confidence_threshold:
             #: Getting index of maximum accurate label
-            result_index = np.argmax(np.squeeze(result))
+            result_index = int(np.argmax(np.squeeze(result)))
             
-            return result_index
+            return result_index, confidence
         else:
-            return 25
+            return 25, confidence
             

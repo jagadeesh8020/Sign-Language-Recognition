@@ -42,20 +42,20 @@ To set up the Sign Language Recognition System on your local machine, follow the
 1. Clone the repository to your local machine.
    
     ``` bash
-    git clone https://github.com/the-sam963/Sign-language-Recognition.git
+    git clone https://github.com/jagadeesh8020/Sign-Language-Recognition.git
     ```
 
 2. Install the required packages using the requirements.txt file.
 
     ``` bash
     # Windows
-        cd Sign-language-Recognition
+        cd Sign-Language-Recognition
         virtualenv env
         .\env\Scripts\activate.ps1
         pip install -r requirements.txt
 
     # Linux/ macOS
-        cd Sign-language-Recognition
+        cd Sign-Language-Recognition
         virtualenv env
         source env/bin/activate
         pip3 install -r requirements.txt
@@ -70,17 +70,50 @@ To use the Sign Language Recognition System, follow these steps:
 
 1. Ensure that the required dependencies and resources are properly installed and set up.
 
-2. Train the model (if needed)
-    ``` bash
-    python train.py
-    ```
-3. Run the main application
+2. Run the web application.
+
     ``` bash
     python app.py
     ```
-4. The application will open a video stream and start recognizing sign language gestures in real-time.
 
-5. Interact with the system by making sign language gestures within the camera's view. The recognized gestures will be displayed on the screen
+3. Open `http://localhost:10000`.
+
+4. Use camera capture or image upload to send a frame for prediction.
+
+<br><br>
+
+## Deploy on Render
+
+This repository is ready for Render as a Docker web service.
+
+1. Push this repository to GitHub.
+
+2. In Render, create a new **Web Service** from this repository.
+
+3. Use these settings:
+
+    ``` text
+    Runtime: Docker
+    Branch: main
+    Dockerfile Path: ./Dockerfile
+    Docker Context: .
+    Health Check Path: /healthz
+    ```
+
+4. Deploy the service. Render will run:
+
+    ``` bash
+    gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 app:app
+    ```
+
+The deployed app opens a browser-based recognition console. Camera capture happens in the user's browser, then the captured image is sent to the Flask backend for MediaPipe hand detection and TFLite sign prediction.
+
+### Local web run
+
+``` bash
+pip install -r requirements.txt
+python app.py
+```
 
 
 Here is a demo of the Sign Language Recognition System in action:
@@ -199,4 +232,3 @@ Our Proposed Model achieved an accuracy of `71.12%` on the validation set and `9
 Contributions to this project are welcome. If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request. Let's work together to make the Sign Language Recognition System even better!
 
 We appreciate your contributions, whether big or small, and we look forward to working together to enhance the Sign Language Recognition System. Let's make a positive impact on the lives of individuals with hearing impairments and promote inclusivity in communication.
-

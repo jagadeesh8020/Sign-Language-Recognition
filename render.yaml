@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: sign-language-recognition
+    runtime: docker
+    plan: free
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit

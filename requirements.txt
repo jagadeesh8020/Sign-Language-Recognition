@@ -1,10 +1,9 @@
-matplotlib==3.7.1
-mediapipe==0.10.0
-numpy==1.24.3
-opencv-python==4.6.0.66
-pandas==2.0.1
-Pillow==9.5.0
-python-dotenv==1.0.0
-scikit-learn==1.2.2
-seaborn==0.12.2
-tensorflow==2.12.0
+Flask==3.0.3
+gunicorn==23.0.0
+tflite-runtime==2.14.0; platform_system == "Linux" and python_version < "3.11"
+ai-edge-litert==2.1.4; platform_system == "Windows" and python_version == "3.12"
+mediapipe==0.10.14
+numpy==1.26.4
+opencv-contrib-python==4.10.0.84
+Pillow==10.4.0
+python-dotenv==1.0.1
